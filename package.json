@@ -4,7 +4,7 @@
   "description": "JavaScript framework for modular applications",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R landing test/spec/**"
+    "test": "mocha -R nyan test/spec/* test/spec/**/*"
   },
   "repository": {
     "type": "git",
