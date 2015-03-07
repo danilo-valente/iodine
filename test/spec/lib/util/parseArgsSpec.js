@@ -11,7 +11,7 @@ describe('lib/util/parseArgs', function () {
     });
 
     it('should match "foo" and "bar" arguments of a named function', function () {
-        function fn(foo, bar) {};
+        function fn(foo, bar) {}
         var args = parseArgs(fn);
 
         expect(args).to.eql(['foo', 'bar']);
