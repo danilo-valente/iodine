@@ -4,7 +4,7 @@
   "description": "JavaScript framework for modular applications",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R nyan test/spec/* test/spec/**/*"
+    "test": "./node_modules/mocha/bin/mocha -R nyan test/spec/* test/spec/**/*"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "mocha": "^2.2.0"
   }
 }
