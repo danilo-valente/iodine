@@ -4,21 +4,21 @@
   "description": "JavaScript framework for modular applications",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha -R landing test/spec/**"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:danilo-valente/iodine.git"
   },
   "keywords": [
-      "di",
-      "depency",
-      "injection",
-      "bean",
-      "app",
-      "framework",
-      "module",
-      "modular"
+    "di",
+    "depency",
+    "injection",
+    "bean",
+    "app",
+    "framework",
+    "module",
+    "modular"
   ],
   "author": "Danilo Valente <danilovalente96@gmail.com> (http://danilo-valente.github.io)",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "uber.js": "^0.2.3"
   },
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "karma": "^0.12.31"
+    "expect.js": "^0.3.1",
+    "gulp": "^3.8.11"
   }
 }
