@@ -6,7 +6,11 @@ var DEFAULT_CONFIG = {
     valueDelimiter: '#'
 };
 
-module.exports = function (config) {
+var iodine = function (config) {
     var cfg = _.extend({}, DEFAULT_CONFIG, config);
     return new App(new Injector(cfg.valueDelimiter));
 };
+
+iodine.version = require('./package.json').version;
+
+module.exports = iodine;
