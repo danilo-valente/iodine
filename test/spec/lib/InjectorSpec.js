@@ -14,7 +14,7 @@ describe('lib/Injector', function () {
             var injector = getInjector();
             injector.setValue('foo', 'bar');
 
-            expect(injector.values).to.eql({
+            expect(injector._values).to.eql({
                 foo: 'bar'
             });
         });
@@ -23,27 +23,27 @@ describe('lib/Injector', function () {
             var injector = getInjector();
             injector.setValue('foo.bar', 'foobar');
 
-            expect(injector.values).to.eql({ foo: { bar: 'foobar' } });
+            expect(injector._values).to.eql({ foo: { bar: 'foobar' } });
         });
 
         it('should reset all values', function () {
             var injector = getInjector();
 
             injector.setValue('foo.bar', 'foobar');
-            expect(injector.values).to.eql({ foo: { bar: 'foobar' } });
+            expect(injector._values).to.eql({ foo: { bar: 'foobar' } });
 
             injector.setValue(null, { quux: true });
-            expect(injector.values).to.eql({ quux: true });
+            expect(injector._values).to.eql({ quux: true });
         });
 
         it('should replace an object with another object', function () {
             var injector = getInjector();
 
             injector.setValue('foo.bar', 'foobar');
-            expect(injector.values).to.eql({ foo: { bar: 'foobar' } });
+            expect(injector._values).to.eql({ foo: { bar: 'foobar' } });
 
             injector.setValue('foo', { quux: true });
-            expect(injector.values).to.eql({ foo: { quux: true } });
+            expect(injector._values).to.eql({ foo: { quux: true } });
         });
     });
 
@@ -51,21 +51,21 @@ describe('lib/Injector', function () {
 
         it('should get "foo"', function () {
             var injector = getInjector();
-            injector.values = { foo: 'bar' };
+            injector._values = { foo: 'bar' };
 
             expect(injector.getValue('foo')).to.eql('bar');
         });
 
         it('should get "foo.bar"', function () {
             var injector = getInjector();
-            injector.values = { foo: { bar: 'foobar' } };
+            injector._values = { foo: { bar: 'foobar' } };
 
             expect(injector.getValue('foo.bar')).to.eql('foobar');
         });
 
         it('should get the whole "values" object', function () {
             var injector = getInjector();
-            injector.values = { foo: { bar: 'foobar' } };
+            injector._values = { foo: { bar: 'foobar' } };
 
             expect(injector.getValue()).to.eql({ foo: { bar: 'foobar' } });
         });
@@ -85,7 +85,7 @@ describe('lib/Injector', function () {
             var bean = new Bean('myBean', function () {});
             injector.bean(bean);
 
-            expect(injector.beans['myBean']).to.be.a(Bean);
+            expect(injector._beans['myBean']).to.be.a(Bean);
         });
 
         it('should register a new bean and trim it\'s name', function () {
@@ -93,8 +93,8 @@ describe('lib/Injector', function () {
             var bean = new Bean(' trim_me ', function () {});
             injector.bean(bean);
 
-            expect(injector.beans['trim_me']).to.be.a(Bean);
-            expect(injector.beans['trim_me'].name).to.eql('trim_me');
+            expect(injector._beans['trim_me']).to.be.a(Bean);
+            expect(injector._beans['trim_me'].name).to.eql('trim_me');
         });
 
         it('should fail if a bean with the same name already exists', function () {
@@ -107,7 +107,7 @@ describe('lib/Injector', function () {
 
         it('should fail if a bean with a value name', function () {
             var injector = getInjector();
-            var bean = new Bean(injector.valueDelimiter + 'myBean', function () {});
+            var bean = new Bean(injector._valueDelimiter + 'myBean', function () {});
 
             expect(injector.bean.bind(injector, bean)).to.throwError(/Cannot start with/);
         });
@@ -144,7 +144,7 @@ describe('lib/Injector', function () {
 
         it('should inject dependencies into a bean', function () {
             var injector = getInjector();
-            injector.beans['myBean1'] = new Bean('myBean1', function () {
+            injector._beans['myBean1'] = new Bean('myBean1', function () {
                 return 'value';
             });
 
@@ -157,7 +157,7 @@ describe('lib/Injector', function () {
 
         it('should inject values into a bean', function () {
             var injector = getInjector();
-            injector.values = {
+            injector._values = {
                 db: {
                     hostname: 'localhost',
                     port: 27071
@@ -188,12 +188,12 @@ describe('lib/Injector', function () {
             }));
 
             expect(instance).to.eql('myValue');
-            expect(injector.instances['myBean']).to.be.ok();
+            expect(injector._instances['myBean']).to.be.ok();
         });
 
         it('should inject dependencies into a bean and initialize it', function () {
             var injector = getInjector();
-            injector.beans['myBean1'] = new Bean('myBean1', function () {
+            injector._beans['myBean1'] = new Bean('myBean1', function () {
                 return 'value';
             });
             var myBean2 = new Bean('myBean2', function (myBean1) {
@@ -202,13 +202,13 @@ describe('lib/Injector', function () {
 
             var instance = injector.init(myBean2);
             expect(instance).to.eql('myBean1 = value');
-            expect(injector.instances['myBean1']).to.be.ok();
-            expect(injector.instances['myBean2']).to.be.ok();
+            expect(injector._instances['myBean1']).to.be.ok();
+            expect(injector._instances['myBean2']).to.be.ok();
         });
 
         it('should inject values into a bean and initialize it', function () {
             var injector = getInjector();
-            injector.values = {
+            injector._values = {
                 db: {
                     hostname: 'localhost',
                     port: 27071

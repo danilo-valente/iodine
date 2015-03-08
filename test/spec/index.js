@@ -8,7 +8,7 @@ describe('iodine', function () {
             valueDelimiter: '@'
         });
 
-        expect(app.config).to.be.ok();
-        expect(app.config.valueDelimiter).to.equal('@');
+        expect(app._config).to.be.ok();
+        expect(app._config.valueDelimiter).to.equal('@');
     });
 });
