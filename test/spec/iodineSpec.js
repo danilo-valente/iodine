@@ -8,14 +8,20 @@ describe('iodine', function () {
 
         expect(app._injector).to.be.ok();
         expect(app._injector._valueDelimiter).to.equal('#');
+        expect(app._logger).to.be.a('function');
     });
 
     it('should create a new App with a given configuration', function () {
-        var app = iodine({
-            valueDelimiter: '@'
-        });
+        var config = {
+            valueDelimiter: '@',
+            logger: function (type, message) {
+                console.log(message);
+            }
+        };
+        var app = iodine(config);
 
         expect(app._injector).to.be.ok();
         expect(app._injector._valueDelimiter).to.equal('@');
+        expect(app._logger).to.equal(config.logger);
     });
 });
