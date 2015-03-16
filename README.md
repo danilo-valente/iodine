@@ -368,7 +368,22 @@ Create a new bean based on `impl` and initialize it. Will use configuration defi
 
 #### App#import(...): App
 
-Try to register the first argument as a new bean. Useful to register beans defined in other files by passing the result of a `require` call.
+Try to register the first argument as a new bean. Useful to register beans defined in other files.
+
+##### App#import(filename: String): App
+
+Require `filename` and pass returned value to #import.
+Example:
+```js
+// lib.js
+module.exports = {
+	alpha: function alpha(dep1, dep2) {},
+	beta: ['dep1', 'dep2', function beta(dep1, dep2) {}]
+};
+
+// index.js
+app.import('lib.js');
+```
 
 ##### App#import(map: PlainObject): App
 
@@ -413,6 +428,11 @@ module.exports = ['dep1', 'dep2', function myBean(dep1, dep2) {}];
 app.import(require('./lib.js'));
 ```
 
+#### App#require(filename: String): Any
+
+Require `filename` and pass returned value to #run.
+
+
 ### BeanConfig
 
 A plain object containing the Bean's configuration.
@@ -428,6 +448,14 @@ Example:
 #### BeanConfig#inject: Array (default= `[]`)
 
 Array containing the names of the beans which the current bean depends on.
+Example:
+```js
+// lib.js
+module.exports = function (dep1, dep2) {};
+
+// index.js
+app.require('lib.js');
+```
 
 #### BeanConfig#singleton: Boolean (default = `true`)
 
